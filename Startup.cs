@@ -21,6 +21,12 @@ namespace aspnet
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var basePath = Environment.GetEnvironmentVariable("CGAAP_BASE_PATH");
+            if (basePath == null)
+            {
+              basePath = "";
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -30,7 +36,7 @@ namespace aspnet
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
+                endpoints.MapGet(basePath+"/", async context =>
                 {
                     await context.Response.WriteAsync(@"<!DOCTYPE html>
 <html>
